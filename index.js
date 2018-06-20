@@ -2,7 +2,7 @@
  * @Author: willclass
  * @Date:   2018-05-30 10:52:12
  * @Last Modified by:   ibeeger
- * @Last Modified time: 2018-06-20 20:39:46
+ * @Last Modified time: 2018-06-20 21:12:33
  */
 
 'use strict';
@@ -22,18 +22,17 @@ const mtpl = require("./menutpl.js");
 const fs = require("fs");
 const homedir = require('path').join(require('os').homedir(), 'Desktop');
 let win;
+const menu = Menu.buildFromTemplate(mtpl);
 
-const menu =  Menu.buildFromTemplate(mtpl);
-
-app.on('browser-window-created', function (event, win) {
-  win.webContents.on('context-menu', function (e, params) {
-    menu.popup(win, params.x, params.y)
-  })
+app.on('browser-window-created', function(event, win) {
+	win.webContents.on('context-menu', function(e, params) {
+		menu.popup(win, params.x, params.y)
+	})
 })
 
-ipcMain.on('show-context-menu', function (event) {
-  const win = BrowserWindow.fromWebContents(event.sender)
-  menu.popup(win)
+ipcMain.on('show-context-menu', function(event) {
+	const win = BrowserWindow.fromWebContents(event.sender)
+	menu.popup(win)
 })
 
 function createWindow() {
@@ -60,11 +59,12 @@ function createWindow() {
 			min = 50000,
 			max = 0;
 		let data = []
-
+		let _url = result.url.indexOf("http:") != -1 ? result.url : "http://" + result.url;
+		let filename = url.parse(_url).hostname.split(".")[0];
 		function getImg() {
 			let tms = Date.now();
-			let url = result.url.indexOf("http:") != -1 ? result.url : "http://" + result.url;
-			http.get(url, function() {
+			
+			http.get(_url, function() {
 				let _x = Date.now() - tms;
 				data.push(_x);
 				min = Math.min(min, _x);
@@ -75,13 +75,13 @@ function createWindow() {
 				}
 				if (i >= result.times) {
 					win.webContents.send("result", {
-							times: i,
-							avg: (Date.now() - alltm) / i,
-							min: min,
-							max: max,
-							data: data
-						})
-					fs.writeFileSync(homedir+"/htdata.txt",data,"utf8");
+						times: i,
+						avg: (Date.now() - alltm) / i,
+						min: min,
+						max: max,
+						data: data
+					})
+					fs.writeFileSync(homedir + "/" + filename + ".txt", data, "utf8");
 				} else {
 					win.webContents.send("process", {
 						times: i
