@@ -3,62 +3,62 @@ const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
 const template = [
-  {
-    label: 'File',
-    submenu: [
-      {
-        label: 'Open File',
-        accelerator: 'CmdOrCtrl+O',
-        click (item, focusedWindow) {
-          ipcMain.emit('sync-openFile-dialog')
-        }
-      }
-    ]
-  },
-  {
-    label: 'View',
-    submenu: [
-      {
-        label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click (item, focusedWindow) {
-          Array.prototype.forEach.call(BrowserWindow.getAllWindows(), (win, i) => {
-            win.reload()
-          })
-        }
-      },
-      {
-        label: 'Toggle Developer Tools',
-        accelerator: (function () {
-          if (process.platform === 'darwin') {
-            return 'Alt+Command+I'
-          }
-          return 'Ctrl+Shift+I'
-        })(),
-        click (item, focusedWindow) {
-          if (focusedWindow) focusedWindow.toggleDevTools()
-        }
-      },
-      {
-        label: 'Toggle Background Renderer',
-        accelerator: (function () {
-          if (process.platform === 'darwin') {
-            return 'Alt+Command+B'
-          }
-          return 'Ctrl+Shift+B'
-        })(),
-        click (item, focusedWindow) {
-          const backWin = BrowserWindow.fromId(2)
-          if (backWin.isVisible()) {
-            backWin.hide()
-          } else {
-            backWin.show()
-            backWin.focus()
-          }
-        }
-      }
-    ]
-  },
+  // {
+  //   label: 'File',
+  //   submenu: [
+  //     {
+  //       label: 'Open File',
+  //       accelerator: 'CmdOrCtrl+O',
+  //       click (item, focusedWindow) {
+  //         ipcMain.emit('sync-openFile-dialog')
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: 'View',
+  //   submenu: [
+  //     // {
+  //     //   label: 'Reload',
+  //     //   accelerator: 'CmdOrCtrl+R',
+  //     //   click (item, focusedWindow) {
+  //     //     Array.prototype.forEach.call(BrowserWindow.getAllWindows(), (win, i) => {
+  //     //       win.reload()
+  //     //     })
+  //     //   }
+  //     // },
+  //     // {
+  //     //   label: 'Toggle Developer Tools',
+  //     //   accelerator: (function () {
+  //     //     if (process.platform === 'darwin') {
+  //     //       return 'Alt+Command+I'
+  //     //     }
+  //     //     return 'Ctrl+Shift+I'
+  //     //   })(),
+  //     //   click (item, focusedWindow) {
+  //     //     if (focusedWindow) focusedWindow.toggleDevTools()
+  //     //   }
+  //     // },
+  //     // {
+  //     //   label: 'Toggle Background Renderer',
+  //     //   accelerator: (function () {
+  //     //     if (process.platform === 'darwin') {
+  //     //       return 'Alt+Command+B'
+  //     //     }
+  //     //     return 'Ctrl+Shift+B'
+  //     //   })(),
+  //     //   click (item, focusedWindow) {
+  //     //     const backWin = BrowserWindow.fromId(2)
+  //     //     if (backWin.isVisible()) {
+  //     //       backWin.hide()
+  //     //     } else {
+  //     //       backWin.show()
+  //     //       backWin.focus()
+  //     //     }
+  //     //   }
+  //     // }
+  //   ]
+  // },
   {
     label: 'Help',
     role: 'help'/*,
@@ -73,7 +73,7 @@ const template = [
 
 if (process.platform === 'darwin') {
   const name = electron.app.getName()
-  console.log('appname', name)
+  // console.log('appname', name)
   template.unshift({
     label: 'Edit',
     submenu: [
