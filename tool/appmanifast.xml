@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1"> 
+      <application> 
+          <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/> 
+      </application> 
+  </compatibility>
+
+  <assemblyIdentity type="win32" 
+                    name="viewClass.willclass.ht" 
+                    version="0.1.2" 
+                    processorArchitecture="x86" 
+  />
+
+  <dependency>
+    <dependentAssembly>
+    
+    </dependentAssembly>
+  </dependency>
+</assembly>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>工具</title>
+	<style>
+		*{margin: 0; padding: 0; overflow: hidden; box-sizing: border-box;}
+		body{
+			padding: 10px;
+		}
+		button{
+			width: 10%;
+			height: 40px;
+			border: 1px solid #000;
+			background-color: #f62118;
+			color: #fff;
+		}
+		input{
+			border: 1px solid #ccc;
+			height: 40px;
+			width: 80%;
+		}
+		#content{
+			border: 5px dashed #ccc;
+			padding: 20px;
+			width: 60%;
+			height: 300px;
+			margin: 30px auto;
+			line-height: 36px;
+		}
+		#bar{
+			width: 100%;
+			margin: 10px 0;
+			height: 10px;
+			background-color: #f0f0f0;
+			border: 1px solid #ccc;
+		}
+		#bari{
+			width: 0;
+			height: 100%;
+			background-color: #c00;
+		}
+		select{
+			width: 10%;
+			height: 40px;
+			border: 1px soid #ccc;
+		}
+	</style>
+</head>
+<body>
+	 <select name="" id="times">
+	 	<option value="500">500次</option>
+	 	<option value="1000">1000次</option>
+	 </select><input placeholder="请输入提供的检查内容" id="val" type="text"><button id="btn">监测</button>
+	 <div id="bar">
+	 	<div id="bari"></div>
+	 </div>
+	 <div id="content">
+		
+	 </div>
+	<script>
+		 const {dialog} = require('electron').remote;
+  const {ipcRenderer,app} = require("electron");
+  const btn = document.getElementById("btn");
+   ipcRenderer.on("result",function(e,file){
+    document.getElementById("content").innerHTML = `采集次数：${file.times}次<br />最长耗时：${file.max}ms<br/>最短耗时：${file.min}ms<br />平均耗时：${file.avg}ms`;
+    document.getElementById('bari').style.width = "100%";
+  });
+    ipcRenderer.on("process",function(e,file){
+     document.getElementById('bari').style.width = (file.times/document.getElementById('times').value)*100+"%";
+  });
+   btn.addEventListener("click",function () {
+   	  if (!document.getElementById('val').value.trim()) {
+   	  	dialog.showMessageBox({title:"警告",type:"warning",message:"检查内容不能为空！"});
+   	  	return;
+   	  };
+      ipcRenderer.send('tools',{url:document.getElementById('val').value,times:document.getElementById('times').value});
+  },false);
+	</script>
+</body>
+</html>
