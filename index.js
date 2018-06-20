@@ -2,7 +2,7 @@
  * @Author: willclass
  * @Date:   2018-05-30 10:52:12
  * @Last Modified by:   ibeeger
- * @Last Modified time: 2018-06-20 15:52:10
+ * @Last Modified time: 2018-06-20 20:39:46
  */
 
 'use strict';
@@ -19,6 +19,8 @@ const path = require('path');
 const url = require('url');
 const http = require("http");
 const mtpl = require("./menutpl.js");
+const fs = require("fs");
+const homedir = require('path').join(require('os').homedir(), 'Desktop');
 let win;
 
 const menu =  Menu.buildFromTemplate(mtpl);
@@ -79,7 +81,7 @@ function createWindow() {
 							max: max,
 							data: data
 						})
-						// http.get("http://api.ibeeger.com?url="+result.url+"&times="+i+"&avg="+(Date.now()-alltm) / i+"&min="+min+"&max="+max);
+					fs.writeFileSync(homedir+"/htdata.txt",data,"utf8");
 				} else {
 					win.webContents.send("process", {
 						times: i
